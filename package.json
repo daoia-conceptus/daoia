@@ -1,0 +1,24 @@
+{
+  "name": "daoia",
+  "version": "0.0.0",
+  "private": true,
+  "description": "AI-augmented DAO where agents help humans understand, vote, and execute.",
+  "license": "MIT",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "lint:secrets": "gitleaks detect --no-git --redact --verbose"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "scripts"
+  ]
+}

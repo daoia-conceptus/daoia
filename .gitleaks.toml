@@ -1,0 +1,50 @@
+# gitleaks configuration for DAOIA
+# Docs: https://github.com/gitleaks/gitleaks
+# We extend the default ruleset and add a few project-specific rules on top.
+
+title = "DAOIA gitleaks configuration"
+
+[extend]
+useDefault = true
+
+# ─── Custom rules ───────────────────────────────────────────────────────────
+
+[[rules]]
+id = "anthropic-api-key"
+description = "Anthropic API key (Claude)"
+regex = '''sk-ant-(?:api03|admin01)-[A-Za-z0-9_\-]{80,}'''
+tags = ["key", "anthropic"]
+
+[[rules]]
+id = "eth-private-key-hex"
+description = "Ethereum-like 32-byte private key (0x-prefixed hex)"
+regex = '''\b0x[a-fA-F0-9]{64}\b'''
+tags = ["key", "crypto", "eth"]
+# High false-positive rate (tx hashes etc.). Combined with an allowlist below.
+[[rules.allowlists]]
+description = "Allow test-only placeholder private key in .env.example"
+paths = ['''\.env\.example$''']
+regexes = ['''0xREPLACE_ME_TESTNET_ONLY''']
+
+[[rules]]
+id = "bip39-mnemonic"
+description = "Likely BIP39 mnemonic seed phrase (12-24 lowercase words)"
+regex = '''(?i)\b(?:[a-z]{3,8}\s+){11,23}[a-z]{3,8}\b'''
+tags = ["key", "crypto", "mnemonic"]
+
+# ─── Global allowlist ───────────────────────────────────────────────────────
+
+[allowlist]
+description = "Files and paths intentionally excluded from scanning"
+paths = [
+  '''(^|/)node_modules/''',
+  '''(^|/)\.next/''',
+  '''(^|/)out/''',
+  '''(^|/)dist/''',
+  '''(^|/)coverage/''',
+  '''(^|/)contracts/out/''',
+  '''(^|/)contracts/cache/''',
+  '''(^|/)pnpm-lock\.yaml$''',
+  '''(^|/)package-lock\.json$''',
+  '''(^|/)yarn\.lock$''',
+]
