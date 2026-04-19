@@ -9,8 +9,9 @@
 ## État actuel
 
 - **Date :** 2026-04-19
-- **Phase en cours :** Phase 0 — Setup & cadrage
-- **Progression Phase 0 :** structure repo et conventions en place ; reste à finaliser les handles publics et la vision verrouillée.
+- **Phase en cours :** Phase 1 — Vitrine publique (démarrage).
+- **Progression Phase 0 :** structure repo, conventions, commit initial poussé sur `github.com/daoia-conceptus/daoia`. Reste (en parallèle Phase 1) : Safe testnet, Foundry local, domaine/X/Discord, vision constitutionnelle écrite.
+- **Commit courant :** `7a113ff`.
 
 ---
 
@@ -21,7 +22,7 @@
 - [x] Setup repo DAOIA en monorepo pnpm (contracts/frontend/backend/scripts).
 - [x] `CLAUDE.md`, `DECISIONS.md`, `SECURITY.md`, `README.md`, `ROADMAP.md`.
 - [x] `.gitignore`, `.env.example`, gitleaks en pre-commit.
-- [ ] Réserver les actifs publics : domaine, X handle, Discord, GitHub org (`daoia-protocol` placeholder).
+- [ ] Réserver les actifs publics restants : domaine, X handle, Discord. GitHub org **✅ réservée : `daoia-conceptus`**, repo public `daoia-conceptus/daoia` en ligne.
 - [ ] Wallet dédié projet (Safe multisig même solo) sur Base Sepolia.
 - [ ] Installer Foundry localement, vérifier toolchain (node 20+, pnpm 9+).
 - [ ] Page "principes constitutionnels" non négociables verrouillée.

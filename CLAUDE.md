@@ -9,12 +9,30 @@
 ## État courant du projet
 
 - **Dernière mise à jour :** 2026-04-19
-- **Phase en cours :** Phase 0 — Setup & cadrage (semaines 1-2 de la roadmap solo)
-- **Prochaine tâche prévue :** rédiger `ROADMAP.md` détaillé (synthèse des 5 phases avec milestones et jalons vérifiables), puis premier commit public.
+- **Phase en cours :** Phase 1 — Vitrine publique (démarrage).
+- **Commit courant :** `7a113ff` — `chore(repo): initial scaffold for DAOIA monorepo` (repo public poussé sur GitHub).
+- **Repo public :** https://github.com/daoia-conceptus/daoia
+- **Prochaine tâche prévue :** wireframe de la landing page (arborescence, composants, assets, tonalité) — validation avant toute initialisation de `frontend/`.
 - **Nom provisoire du projet :** DAOIA
 - **Ticker token (placeholder) :** `$GOVAI` — à reconfirmer avant TGE après legal opinion.
+- **Items Phase 0 encore à faire (en parallèle Phase 1, ne pas les oublier) :**
+  1. Créer un Safe multisig projet sur Base Sepolia (wallet dédié DAOIA).
+  2. Installer Foundry localement et vérifier la toolchain (node 20+, pnpm 9+).
+  3. Réserver les handles publics restants : **nom de domaine**, **X handle**, **Discord**. (GitHub org `daoia-conceptus` déjà réservée ✅.)
+  4. Rédiger la page "principes constitutionnels non négociables" (version courte publiable, basée sur la section "Principes non négociables" de ce document).
 
 > **Règle :** cette section est mise à jour à chaque fin de session importante. Si tu reviens sur ce projet et que la date est vieille de plus de 7 jours, re-demande à l'utilisateur où on en est avant de supposer.
+
+---
+
+## Identité & comptes
+
+- **Git author (local) :** `conceptus <info@conceptus.be>` — configuré en global.
+- **Organisation GitHub (réelle) :** `daoia-conceptus` (placeholder `daoia-protocol` initialement prévu, abandonné avant tout push — voir `DECISIONS.md`).
+- **Repo public :** `daoia-conceptus/daoia` — visibility public, branche par défaut `main`.
+- **Authentification Git/GitHub :** via **GitHub CLI** (`gh`). `gh auth setup-git` gère les credentials, donc **pas de PAT ni de SSH key** à maintenir manuellement pour ce repo. Le compte `gh` actif pour DAOIA est `daoia-conceptus` (l'utilisateur a aussi un compte GitHub personnel — ne pas confondre).
+- **Remote :** `origin` pointe sur `https://github.com/daoia-conceptus/daoia.git`. `main` suit `origin/main`.
+- **Push :** **jamais automatique** côté Claude Code. Toujours laisser l'utilisateur faire le `git push` lui-même, sauf demande explicite dans la session.
 
 ---
 

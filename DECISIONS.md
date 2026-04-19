@@ -68,6 +68,7 @@
 - **Choix :** utiliser `daoia-protocol` comme nom d'organisation GitHub placeholder dans les URLs et configs jusqu'à réservation effective.
 - **Alternatives considérées :** compte perso du founder, nom alternatif.
 - **Raison :** handle non encore réservé au 2026-04-19. Les URLs seront à remplacer au moment de la réservation effective avant le premier push public. Tant que le remote n'est pas configuré, ce placeholder ne bloque rien.
+- **Révision (2026-04-19, même jour) :** placeholder **abandonné** avant toute publication. L'org GitHub retenue est `daoia-conceptus`. Voir entrée plus bas du même jour.
 
 ---
 
@@ -110,3 +111,35 @@
   - `COUNCIL_SAFE_ADDRESS`
 - **Alternatives considérées :** ajouter dès maintenant d'autres clés (Discord bot, Vercel, etc.).
 - **Raison :** ne mettre que les secrets strictement nécessaires aux phases 1-2 ; ajouter les autres au fur et à mesure. `BASESCAN_API_KEY` est séparé d'`ETHERSCAN_API_KEY` parce que Basescan a son propre espace API, même si la clé peut parfois être partagée.
+
+---
+
+## 2026-04-19 — Authentification GitHub : via `gh` CLI (pas de PAT manuel)
+
+- **Choix :** utiliser la GitHub CLI (`gh`) pour gérer l'authentification git et GitHub. `gh auth setup-git` prend en charge les credentials ; plus besoin de stocker un Personal Access Token dans le keychain ou de maintenir des clés SSH dédiées pour ce repo.
+- **Alternatives considérées :**
+  - **PAT manuel** stocké dans le keychain macOS — nécessite rotation manuelle, friction élevée, risque plus élevé d'exposition accidentelle.
+  - **Clés SSH distinctes par compte** — fonctionnel mais demande une configuration `~/.ssh/config` fine (Host alias, IdentityFile, IdentitiesOnly) et casse le flow `gh repo view`/`gh pr create` par défaut.
+- **Raison :** l'utilisateur a deux comptes GitHub (un personnel et `daoia-conceptus` dédié au projet). `gh` bascule entre comptes avec `gh auth switch`, gère la séparation proprement, et évite toute confusion sur lequel pousse vers quel remote. Le compte actif côté `gh` pour ce repo est `daoia-conceptus`. En cas de doute futur, vérifier avec `gh auth status`.
+
+---
+
+## 2026-04-19 — Organisation GitHub : nom réel `daoia-conceptus`
+
+- **Choix :** l'organisation GitHub publique du projet est `daoia-conceptus`. Repo public : `https://github.com/daoia-conceptus/daoia`. Branche par défaut `main`.
+- **Alternatives considérées :**
+  - Placeholder initial `daoia-protocol` (abandonné, voir entrée plus haut du même jour).
+  - **Compte perso** de l'utilisateur — rejeté pour ne pas lier le projet à son identité personnelle dès le premier push.
+  - **Créer une nouvelle org plus neutre plus tard** (ex. `daoia-foundation`) si le projet grossit ou quand la Foundation juridique sera constituée.
+- **Raison :** l'org `daoia-conceptus` était déjà réservée par l'utilisateur et est immédiatement exploitable. Elle porte la marque du projet sans présumer de la structure juridique finale. Un transfert vers une nouvelle org reste possible sans douleur côté git (le remote peut être déplacé) ; les liens publics (landing, réseaux sociaux) auront plus d'inertie et seront le vrai coût d'un renommage, donc à figer dès qu'une décision long terme est prise.
+
+---
+
+## 2026-04-19 — Politique de signature des commits : garder `Co-Authored-By: Claude` par défaut
+
+- **Choix :** chaque commit créé avec l'aide de Claude Code conserve par défaut la ligne `Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>` (ou son équivalent pour la version de modèle utilisée) dans le message de commit.
+- **Alternatives considérées :**
+  - **Retirer systématiquement la signature** — rejetée pour manque de transparence sur l'usage d'agents IA.
+  - **Signer uniquement les commits "majeurs"** — rejetée car la ligne de démarcation "majeur" / "mineur" serait subjective et ouvrirait la porte à des oublis.
+  - **Signer `Authored-By` au lieu de `Co-Authored-By`** — rejetée car la responsabilité finale du code et du commit reste humaine (règle SECURITY.md) ; l'IA est co-auteure, pas auteure.
+- **Raison :** transparence sur la nature de la collaboration (l'utilisateur pilote, l'IA assiste) ; cohérence avec la philosophie publique du projet (build in public, assumer l'usage d'outils modernes) ; alignement avec une pratique qui se généralise dans l'écosystème open source. L'historique git reste auditable rétroactivement : si un futur contributeur ou investisseur veut une vue "code 100% humain", on peut re-générer un diff filtré, mais on ne retire pas la trace historique par défaut.

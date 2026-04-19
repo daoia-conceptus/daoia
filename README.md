@@ -7,6 +7,8 @@ DAOIA is an experimental governance stack for DAOs where AI agents **structure t
 The goal is not "agents that execute". The goal is **governance simple and fast enough that normal people actually participate**.
 
 > Project codename: `DAOIA` (provisional). Token ticker: `$GOVAI` (placeholder, subject to legal review before any TGE).
+>
+> Source: [github.com/daoia-conceptus/daoia](https://github.com/daoia-conceptus/daoia)
 
 ---
 
@@ -14,7 +16,7 @@ The goal is not "agents that execute". The goal is **governance simple and fast 
 
 | | |
 |---|---|
-| Phase | 0 — Setup & scoping |
+| Phase | 1 — Public showcase (in progress) |
 | Network | None yet (Base Sepolia when contracts land) |
 | Production | Not deployed. Not audited. Do not use with real funds. |
 | License | [MIT](LICENSE) |
