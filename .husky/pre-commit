@@ -1,5 +1,12 @@
 #!/usr/bin/env sh
 
+# Ensure common binary locations are on PATH. Some contexts
+# (Claude Code subshells, cron, non-login shells, future CI workers)
+# don't inherit the PATH tweaks from the user's .zshrc, so tools
+# installed via brew on Apple Silicon (/opt/homebrew/bin) or
+# Intel (/usr/local/bin) are invisible to `command -v` without this.
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
 # ─── DAOIA pre-commit hook ──────────────────────────────────────────────────
 # Scans staged changes for secrets using gitleaks before allowing a commit.
 #
