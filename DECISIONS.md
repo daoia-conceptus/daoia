@@ -143,3 +143,15 @@
   - **Signer uniquement les commits "majeurs"** — rejetée car la ligne de démarcation "majeur" / "mineur" serait subjective et ouvrirait la porte à des oublis.
   - **Signer `Authored-By` au lieu de `Co-Authored-By`** — rejetée car la responsabilité finale du code et du commit reste humaine (règle SECURITY.md) ; l'IA est co-auteure, pas auteure.
 - **Raison :** transparence sur la nature de la collaboration (l'utilisateur pilote, l'IA assiste) ; cohérence avec la philosophie publique du projet (build in public, assumer l'usage d'outils modernes) ; alignement avec une pratique qui se généralise dans l'écosystème open source. L'historique git reste auditable rétroactivement : si un futur contributeur ou investisseur veut une vue "code 100% humain", on peut re-générer un diff filtré, mais on ne retire pas la trace historique par défaut.
+
+---
+
+## 2026-04-19 — Incident git : override local `user.name` / `user.email` à `#`
+
+- **Incident :** le repo local a reçu, hors session Claude Code, un override `user.name = #` et `user.email = #` (vraisemblablement via un copier-coller depuis un message externe où un `#` a été interprété par zsh comme début de commentaire, laissant un `#` isolé comme seule valeur conservée). Résultat : un commit de session (ancien hash `1b1a916` — `docs: update project state after initial GitHub push`) s'est retrouvé signé `# <#>` au lieu de `conceptus <info@conceptus.be>`.
+- **Remédiation :**
+  - `git config --local --unset user.name` et `git config --local --unset user.email` pour supprimer l'override et laisser la config globale reprendre la main.
+  - `git commit --amend --reset-author --no-edit` pour ré-attribuer le commit défectueux. Nouveau hash : `9a8f261`.
+  - Aucun `git push` n'a été effectué entre la corruption et la correction → l'historique distant n'a jamais été atteint.
+- **Alternative considérée :** ne rien documenter et corriger en silence. **Rejetée :** la traçabilité d'un mini-incident vaut plus que l'ego, c'est formateur pour un solo-founder, et c'est cohérent avec l'exigence d'audit que le projet applique à ses propres agents IA (cf. SECURITY.md). Si on exige des logs d'action de nos agents, on se les applique à soi-même.
+- **Prévention :** en cas de doute sur l'identité avant un commit sensible, lancer `git config --local --list | grep user` et `git config user.email`. Règle générale : la config `user.*` vit en **global**, pas en local, sauf besoin explicite de séparation multi-identités par repo.
