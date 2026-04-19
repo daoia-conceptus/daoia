@@ -155,3 +155,55 @@
   - Aucun `git push` n'a été effectué entre la corruption et la correction → l'historique distant n'a jamais été atteint.
 - **Alternative considérée :** ne rien documenter et corriger en silence. **Rejetée :** la traçabilité d'un mini-incident vaut plus que l'ego, c'est formateur pour un solo-founder, et c'est cohérent avec l'exigence d'audit que le projet applique à ses propres agents IA (cf. SECURITY.md). Si on exige des logs d'action de nos agents, on se les applique à soi-même.
 - **Prévention :** en cas de doute sur l'identité avant un commit sensible, lancer `git config --local --list | grep user` et `git config user.email`. Règle générale : la config `user.*` vit en **global**, pas en local, sauf besoin explicite de séparation multi-identités par repo.
+
+---
+
+## 2026-04-19 — Landing v1 : page `/principles` dédiée (double rôle constitutionnel)
+
+- **Choix :** la landing v1 livre une **page dédiée `/principles`** (pas une simple ancre `/#principles`). Elle contient la version publique, sobre, des principes non négociables du projet.
+- **Alternatives considérées :**
+  - **Ancre `/#principles` seule** — plus léger à coder mais ne force pas à rédiger un contenu public propre.
+  - **Fichier `PRINCIPLES.md` à la racine** — visible pour les devs sur GitHub mais invisible pour un visiteur de la landing.
+- **Raison :** la page sert un double rôle — (a) trust signal pour un dev crypto qui atterrit sur la landing et veut voir ce que le projet s'interdit avant de cliquer ailleurs ; (b) elle remplit simultanément l'item Phase 0 restant "rédiger la page principes constitutionnels". Un seul effort, deux cases cochées. Versions interne (`CLAUDE.md`) et publique (`/principles`) peuvent diverger sur la forme mais jamais sur le fond.
+
+---
+
+## 2026-04-19 — Landing v1 : dark-only, light mode + toggle reportés en v2
+
+- **Choix :** la landing v1 livre **un seul thème visuel, dark**. Pas de bouton de bascule thème dans le header. Light mode et toggle UI sont des items v2.
+- **Alternatives considérées :**
+  - **Dark + light + toggle dès la v1** — coût d'implémentation non négligeable (double audit de contraste WCAG, logique `localStorage`, gestion du flash de chargement, respect de `prefers-color-scheme` avec SSR Next.js, double mapping des tokens).
+  - **Respect passif de `prefers-color-scheme` sans toggle** — rejeté car ajoute la complexité sans gagner en contrôle utilisateur.
+- **Raison :** la cible v1 (dev crypto early-stage) est très majoritairement dark-par-défaut. Économie de temps et de bugs significative, coût produit quasi nul. Architecture préservée : tokens couleur tous sémantiques (`bg-canvas`, `fg-primary`, etc.), jamais d'hex en dur dans les composants — ajouter le light mode en v2 sera trivial. Palette light figée dans `docs/landing_wireframe_v1.md` pour référence future.
+
+---
+
+## 2026-04-19 — Analytics v1 : Vercel Analytics
+
+- **Choix :** la landing v1 intègre **Vercel Analytics** (package `@vercel/analytics`) dès le premier déploiement Vercel.
+- **Alternatives considérées :**
+  - **Zéro analytics** — envisagé initialement pour la sobriété absolue, rejeté parce qu'on se prive même des métriques vitales (visites, sources, taux de rebond) qui sont utiles pour itérer la landing en Phase 1.
+  - **Plausible self-hosted** — RGPD clean, data auto-hébergée, mais surcoût infra (un VPS) et de temps pour un projet solo. Option pertinente pour Phase 3+ quand on voudra posséder la donnée.
+  - **GA4 / Mixpanel** — trackers tiers intrusifs, incompatibles avec la philosophie RGPD/privacy du projet.
+- **Raison :** Vercel Analytics est gratuit dans la limite du tier hobby, zéro-config si le déploiement est déjà sur Vercel, RGPD-friendly (pas de cookies, pas de PII, pas de bannière obligatoire), et suffisant pour les métriques d'une landing Phase 1. Le jour où la closed alpha démarre (Phase 3), ré-évaluer : basculer vers Plausible self-hosted si on veut posséder la donnée, ou étendre Vercel Analytics selon les besoins produit.
+
+---
+
+## 2026-04-19 — Landing v1 : `noindex` tant que les handles Discord/X ne sont pas réservés
+
+- **Choix :** la landing v1 est déployée en production avec `<meta name="robots" content="noindex, nofollow" />` **tant que les handles publics Discord et X ne sont pas réservés et liés dans le header**. Le meta est retiré manuellement lors du lancement public explicite.
+- **Alternatives considérées :**
+  - **Landing indexée dès le premier déploiement** — rejeté car un visiteur qui atterrirait via Google sur une page avec des CTAs "Join Discord" menant vers `#` (placeholder) aurait une expérience cassée, et le SEO démarre avec des signaux négatifs.
+  - **Ne déployer en public qu'après réservation des handles** — rejeté car on veut pouvoir partager une URL interne (preview Vercel, ou prod-noindex) à quelques early testeurs tout de suite pour avoir leur feedback sans attendre la réservation Discord/X.
+- **Raison :** découple le déploiement technique (qui peut avancer) de la diffusion publique (qui dépend d'assets externes). Le meta `noindex` est retiré en une ligne de diff quand les handles sont prêts. Réminder : vérifier également que le `sitemap.xml` n'est pas exposé et que `robots.txt` contient `Disallow: /` tant que le flag est actif.
+
+---
+
+## 2026-04-19 — Landing v1 : wordmark CSS, logo designer différé 2-3 mois
+
+- **Choix :** la landing v1 utilise **un wordmark "DAOIA" en CSS pur** (typographie Geist Sans, weight ajusté). Pas de logomark (icône) en v1. Une commande à un designer est prévue dans **2-3 mois**, une fois que le nom du projet aura été stress-testé par l'usage et les retours.
+- **Alternatives considérées :**
+  - **Commander un logo complet maintenant** — rejeté : coût immédiat (500-2000€ pour un travail correct) alors que le nom `DAOIA` est encore provisoire et que la marque pourrait bouger avant TGE ; risque de payer deux fois.
+  - **Logo IA-généré (Midjourney / Ideogram)** — rejeté : qualité moyenne pour une marque de projet sérieux, pas de garantie d'unicité, pas de cession de droits claire.
+  - **Logomark minimaliste auto-fabriqué en Figma** — envisageable mais chronophage sans garantie de qualité pour un non-designer.
+- **Raison :** un wordmark typographique est gratuit, cohérent avec le style "dev tool first" (cf. Linear / Vercel), et se remplace en un commit le jour où un vrai logo est prêt. Mieux vaut pas-de-logo qu'un mauvais logo — surtout tant que le nom n'est pas définitif.
