@@ -207,3 +207,22 @@
   - **Logo IA-généré (Midjourney / Ideogram)** — rejeté : qualité moyenne pour une marque de projet sérieux, pas de garantie d'unicité, pas de cession de droits claire.
   - **Logomark minimaliste auto-fabriqué en Figma** — envisageable mais chronophage sans garantie de qualité pour un non-designer.
 - **Raison :** un wordmark typographique est gratuit, cohérent avec le style "dev tool first" (cf. Linear / Vercel), et se remplace en un commit le jour où un vrai logo est prêt. Mieux vaut pas-de-logo qu'un mauvais logo — surtout tant que le nom n'est pas définitif.
+
+---
+
+## 2026-04-19 — Assets publics réservés
+
+- **Choix :** les quatre canaux publics du projet sont désormais verrouillés :
+  - **Domaine :** `daoia.io` — réservé sur **Hostinger**, pas encore déployé.
+  - **Discord :** serveur officiel créé, invite permanent `https://discord.gg/KmEs2QVk`.
+  - **X :** handle `@daoiaprotocol` — `https://x.com/daoiaprotocol`.
+  - **GitHub :** `daoia-conceptus/daoia` (déjà réservé précédemment, rappelé ici pour consolidation).
+- **Alternatives considérées :**
+  - **TLD `.xyz`** — option moins premium, moins crédible pour un projet institutionnel / "vu par un avocat" ; écartée.
+  - **TLD `.ai`** — sensiblement plus cher, et réducteur thématiquement (colle l'identité projet à "IA" alors que la thèse est "gouvernance augmentée par l'IA", pas "projet IA pur") ; écartée.
+  - **Stratégie multi-TLD défensif** (`.io` + `.xyz` + `.ai` + `.com`) — écartée en v1 pour éviter la charge récurrente et parce qu'aucun squat urgent n'est à craindre à ce stade. Pourra être revisitée post-legal opinion / pré-TGE.
+- **Raison :** verrouiller l'identité publique avant toute diffusion (landing, post X, annonce Discord) pour empêcher le squattage de marque sur les plateformes les plus exposées. Coût marginal limité, bénéfice asymétrique (un handle X ou un domaine cédé après visibilité coûte 10× ce qu'il coûte en préventif).
+- **Notes :**
+  - Transfert potentiel **Hostinger → Cloudflare** pour la gestion DNS (meilleure API, meilleurs records CDN, intégration Vercel plus fluide) **reporté** — non bloquant tant que la landing n'est pas live ; à re-évaluer au moment du déploiement réel sur `daoia.io`.
+  - La décision antérieure "Landing v1 : `noindex` tant que les handles Discord/X ne sont pas réservés" (même date) voit sa condition technique levée ; le `noindex` reste toutefois maintenu jusqu'au lancement public explicite puisque la landing n'est pas encore déployée.
+  - Tous ces liens sont également consignés dans `CLAUDE.md` (section "Identité & comptes") et exposés dans `README.md` (section "Community").

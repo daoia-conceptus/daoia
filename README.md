@@ -73,6 +73,15 @@ See [SECURITY.md](SECURITY.md) for the full list and disclosure policy.
 
 ---
 
+## Community
+
+- **Website** — [daoia.io](https://daoia.io) · *coming soon — landing under development*
+- **Discord** — [join the server](https://discord.gg/KmEs2QVk) · primary place to ask questions, follow progress, and push back on the architecture
+- **X** — [@daoiaprotocol](https://x.com/daoiaprotocol)
+- **GitHub** — [daoia-conceptus/daoia](https://github.com/daoia-conceptus/daoia) · star the repo to follow along
+
+---
+
 ## Getting started
 
 The repo is currently in scaffolding. Once the first workspaces land (`frontend/`, `contracts/`, `backend/`), install instructions will appear here. The stack will use **pnpm workspaces** to coordinate them.
@@ -87,7 +96,7 @@ Required tooling (local dev):
 
 ## Contributing
 
-Contributions are welcome once the first prototype ships. For now, the best way to follow along is to watch the repo and read the documents in [`docs/`](docs/).
+Contributions are welcome once the first prototype ships. For now, the best way to follow along is to [join the Discord](https://discord.gg/KmEs2QVk), watch the repo, and read the documents in [`docs/`](docs/).
 
 Security disclosures: see [SECURITY.md](SECURITY.md).
 

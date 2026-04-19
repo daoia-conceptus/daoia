@@ -280,15 +280,16 @@ Ordre d'apparition = ordre narratif recommandé : **Hook → Problème → Solut
 | OG image (share card) | X/Discord/Farcaster preview quand on partage l'URL | **(b)** | 1200×630 PNG | Génération dynamique via `@vercel/og` au fur et à mesure du build ; version statique "DAOIA — AI-augmented DAO" en fallback. Avant toute diffusion X, vérifier le rendu. |
 | Police Sans — **Geist Sans (variable)** | Corps de texte et titres | **(b)** | Variable font, self-host via `next/font/google` ou `@next/font/local` | Free, par Vercel. Alt 1 : **Inter** (très sûre). Alt 2 : **IBM Plex Sans** si on veut une touche plus "institutionnelle". |
 | Police Mono — **Geist Mono** | Adresses, hash, snippets, nombres `tabular-nums` | **(b)** | Variable font, self-host | Free. Alt : **JetBrains Mono** ou **IBM Plex Mono**. |
-| Discord invite URL | CTA primaire + header + footer | **(a)** | URL stable (non expirante) | **Bloquant avant diffusion publique.** Créer le serveur Discord (item Phase 0 restant), générer un permalien d'invite non expirant. Pour la v1 de dev, placeholder `#` ou URL temporaire avec TODO. |
-| GitHub repo URL | CTA secondaire + header | **(b)** | URL stable | Déjà connu : `https://github.com/daoia-conceptus/daoia`. |
-| X handle URL | CTA secondaire + footer | **(a)** | URL stable | Bloquant avant diffusion publique. Réserver le handle X (item Phase 0), puis lock l'URL. Placeholder sinon. |
+| Discord invite URL | CTA primaire + header + footer | **(b)** | URL stable (non expirante) | **Réservé ✅** — invite permanent : `https://discord.gg/KmEs2QVk`. À câbler dans le header, le Hero, le CTA block et le footer. |
+| GitHub repo URL | CTA secondaire + header | **(b)** | URL stable | **Réservé ✅** — `https://github.com/daoia-conceptus/daoia`. |
+| X handle URL | CTA secondaire + footer | **(b)** | URL stable | **Réservé ✅** — `https://x.com/daoiaprotocol`. |
+| Domaine `daoia.io` | Destination finale de la landing Next.js | **(c)** | Domaine racine | **Réservé ✅** sur Hostinger. À pointer sur le déploiement Vercel quand la landing sera prête. Transfert éventuel Hostinger → Cloudflare reporté (non-bloquant). |
 | Screenshots dApp | Section HowItWorks (éventuel visuel) | **(c)** | PNG 16:9 ou 3:4 | Produits en Phase 2 quand le prototype tourne. En v1 : pas de visuel, on vit avec du texte. |
 | Illustrations | Aucune en v1 | — | — | Le style Linear/Vercel assume l'absence d'illustrations. Pas de SVG décoratif, pas d'emoji gratuit. |
 | Noise / gradient background | Fond subtil hero (optionnel) | **(c)** | SVG/CSS | Facultatif. Effet gradient CSS natif suffit — pas besoin d'image. |
 | **Vercel Analytics** (intégration, pas un asset au sens strict) | Mesure du trafic, des pages vues, de l'audience | **(b)** | Package npm `@vercel/analytics` + activation dans la dashboard Vercel | **Retenu pour la v1.** Zéro config si le déploiement est sur Vercel, RGPD-friendly (pas de cookies, pas de PII), suffisant pour les métriques vitales de phase 1 (visites, taux de rebond, sources de trafic). Plausible self-hosted reste une option pour Phase 3+ si on veut posséder la donnée. |
 
-**Conclusion :** aucun asset n'est *strictement* bloquant pour lancer `create-next-app` et coder la structure. Les deux vraies dépendances pour une première diffusion publique sont l'**URL Discord** et l'**URL X**. Tant que ces handles ne sont pas réservés, la landing reste en preview locale / staging non-indexé (`noindex` dans les meta).
+**Conclusion :** tous les assets externes requis pour la landing sont désormais disponibles. Handles publics (Discord, X, GitHub) et domaine (`daoia.io`) réservés ✅. Le `noindex` reste actif jusqu'au lancement public explicite (la landing n'est pas encore déployée), mais plus aucune dépendance externe ne bloque ni le code ni la diffusion.
 
 ---
 
