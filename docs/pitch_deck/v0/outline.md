@@ -1,6 +1,6 @@
 ---
 title: DAOIA Pitch Deck
-version: 0.0 (outline)
+version: 0.1 (cofounder-ready draft)
 audience: cofounder / early contributor
 status: draft
 date: 2026-04-20
@@ -15,7 +15,7 @@ date: 2026-04-20
 
 ---
 
-## Structure overview (10 slides)
+## Structure overview (12 slides)
 
 | # | Slide | Status | Purpose |
 |---|---|---|---|
@@ -26,9 +26,11 @@ date: 2026-04-20
 | 5 | Where we are today | 📋 outline | Phase 0 deliverables, proof of execution |
 | 6 | Target market | 📋 outline | Generalist DAOs first, technical DAOs later |
 | 7 | Roadmap | 📋 outline | 12-month trajectory |
-| 8 | Founder | 📋 outline | Who, why, what you bring |
+| 8 | Founder | ✍️ written | Who, why, what you bring |
 | 9 | What I need | ✍️ written | Role, commitment, compensation, timeline |
-| 10 | Next steps | 📋 outline | Call to action |
+| 10 | Risks | ✍️ written | What could kill this project, honestly |
+| 11 | Open questions | ✍️ written | What we don't know yet |
+| 12 | Next steps | 📋 outline | Call to action |
 
 ---
 
@@ -147,17 +149,28 @@ Decentralization is about *who decides*, not *who reads*.
 
 # Slide 8 — Founder
 
-*Status: outline only — TODO: fill with your real details*
+## conceptus
 
-- **Name:** [Your name]
-- **Background:** [2-3 bullet points about your relevant experience]
-- **Why this project, why now:** [1 sentence personal motivation]
-- **What you bring:** [Strategic vision, product sensibility, community building, etc.]
-- **Contact:** [LinkedIn, X, GitHub links]
+EU-based. Creative generalist with a strong product intuition. Long-term perspective shaped by early internet experience (since the 1990s). High-integrity builder — focused on clarity over hype.
 
-*Visual: Photo + 3-4 bullet points + social links. Clean, personal but not showy.*
+**Why this project, why now:**
+DAO governance is structurally broken, and AI makes it finally possible to reduce the cost of informed participation without removing human decision-making.
 
-*Notes: Don't undersell. Don't oversell. Be specific. If you have no crypto background, own it — and explain why that's a feature, not a bug (fresh eyes, user-side perspective).*
+**What I bring:**
+- Clear product vision grounded in real governance problems
+- Ability to design coherent systems (principles → product → execution)
+- Strong taste for simplicity, clarity, and non-bullshit execution
+
+**Contact:**
+- GitHub: [github.com/daoia-conceptus](https://github.com/daoia-conceptus)
+- Discord: [discord.gg/KmEs2QVk](https://discord.gg/KmEs2QVk)
+- X: [@daoiaprotocol](https://x.com/daoiaprotocol)
+
+---
+
+*Visual: Left-aligned, no photo (conceptus is a pseudonym). Clean text. Links as minimal amber accents.*
+
+*Notes: Pseudonymity is an explicit choice, not an omission. Crypto-native audiences will accept it without friction. For others, the track record is in the public repo and the documentation.*
 
 ---
 
@@ -182,9 +195,10 @@ Decentralization is about *who decides*, not *who reads*.
 - Comfortable with building in public (all code and decisions public unless security)
 
 **Compensation:**
-- Equity-equivalent: **[X]% of eventual governance token allocation**, vesting [Y] months with [Z] month cliff
-- No cash now. Treasury kicks in at Phase 3 or on external funding, whichever first.
-- Full transparency on token distribution, allocations, and funding before any of it happens.
+- Equity-equivalent: **20% of eventual governance token allocation**, vesting over **48 months** with a **12-month cliff**
+- Starting position — open to adjustment based on experience and contribution scope
+- No cash now. Treasury kicks in at Phase 3 or on external funding, whichever first
+- Full transparency on token distribution, allocations, and funding before any of it happens
 
 **Not looking for:**
 - Passive advisors asking for equity for "intros"
@@ -195,14 +209,57 @@ Decentralization is about *who decides*, not *who reads*.
 
 *Visual: Clean slide with the 5 sections as readable blocks.*
 
-*TODO before first real send:*
-- *Confirm technical skills list (are they accurate? too strict? too loose?)*
-- *Decide on equity % range — see founder hiring guides for Phase 0 cofounder stakes (10-40% is the common range depending on timing and contribution)*
-- *Decide on vesting/cliff — 4 years / 1 year cliff is standard for cofounders*
+*Notes: The 20% / 48 / 12 figures are starting anchors, not ultimatums. They signal seriousness without pre-closing negotiation.*
 
 ---
 
-# Slide 10 — Next steps
+# Slide 10 — Risks
+
+## What could kill this project, honestly.
+
+- **Adoption risk.** Generalist DAOs may resist adopting an AI-based tool even when it helps. Culture in these communities is often skeptical of "AI" for good reasons. Mitigation: sober positioning (no hype, no promises of automation), gradual rollout, opt-in by design.
+
+- **Technical risk.** Sage v0 must summarize proposals without losing critical information. If the first tests show hallucination or systematic misrepresentation, the whole thesis breaks. Mitigation: measurement-first approach, public accuracy metrics, human-in-the-loop from day one.
+
+- **Narrative risk.** The crypto+AI zeitgeist is moving toward autonomous agents. DAOIA's contrarian position ("agents that don't vote") may be interpreted as timid, behind-the-curve, or missing the point. Mitigation: clear founder communication, public documentation of the reasoning, building in the open.
+
+- **Regulatory risk (late-stage).** If a governance token is eventually issued, MiCA compliance in the EU and parallel frameworks elsewhere will apply. Mitigation: testnet-first approach, no fundraise before regulatory clarity, explicit deferral of tokenomics to Phase 4.
+
+- **Solo-founder risk.** Until a cofounder joins, the project depends entirely on one person. Mitigation: public documentation, open-source from day one, explicit "survive-the-founder" principle, active search for a technical cofounder (this deck).
+
+---
+
+*Visual: Simple list, each risk with a "mitigation" sub-line.*
+
+*Speaker notes: Naming risks explicitly signals competence. Hiding them signals inexperience. Cofounders prefer the first.*
+
+---
+
+# Slide 11 — Open questions
+
+## What we don't know yet.
+
+DAOIA is built on testable hypotheses. Some will be validated, some will need to be revised. The most important open questions right now:
+
+- **Can agents summarize without losing important information?** This is the core technical bet. We don't have a robust answer yet. Phase 1 testnet will generate our first real signal.
+
+- **Is the 90-day responsible disclosure window the right balance?** It's our current commitment. It may need to be tightened for critical vulnerabilities or loosened for minor bugs. We will learn.
+
+- **How do we measure whether DAOIA actually improves informed participation?** Voting rates are easy to track. Understanding whether votes are more *informed* is harder. Phase 2 will need a real measurement framework.
+
+- **Can the project sustain itself without a TGE?** Treasury is currently zero. If phase 4 tokenomics is delayed or never happens, funding the work becomes a real constraint. We're not currently optimizing for this, but it is a question.
+
+- **What does "DAO" mean when agents handle execution?** The boundary between "human governance" and "agent execution" needs to be tested in practice. We expect some edge cases that will reshape how we think about it.
+
+---
+
+*Visual: Clean question-by-question layout. No answers — that's the point.*
+
+*Speaker notes: This slide is what distinguishes DAOIA from projects that claim certainty they don't have. Answering honestly builds trust.*
+
+---
+
+# Slide 12 — Next steps
 
 *Status: outline only*
 
