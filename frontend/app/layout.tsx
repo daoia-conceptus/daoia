@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/next";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import "./globals.css";
 
 // -----------------------------------------------------------------------------
@@ -85,7 +87,29 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} h-full bg-canvas text-fg-primary antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        {children}
+        {/*
+         * Skip-to-content link — keyboard-only affordance. It stays visually
+         * hidden (`sr-only`) until it receives focus (first Tab press), at
+         * which point `focus:not-sr-only` promotes it into a fixed banner
+         * near the top-left of the viewport. Targets the #main-content
+         * wrapper so screen reader users land on the page content, past the
+         * header nav.
+         */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-accent focus:text-canvas focus:px-4 focus:py-2 focus:rounded focus:font-medium"
+        >
+          Skip to main content
+        </a>
+
+        <SiteHeader />
+
+        <div id="main-content" className="flex flex-1 flex-col">
+          {children}
+        </div>
+
+        <SiteFooter />
+
         {/*
          * Vercel Analytics — only sends events in production builds
          * (process.env.NODE_ENV === "production"). In dev it prints debug
