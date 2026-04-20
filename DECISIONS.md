@@ -319,3 +319,22 @@
 
   **Métrique de succès :** la landing Hero-only est déployable en l'état — si elle génère des clics Discord ou GitHub (trackés via Vercel Analytics), c'est un signal que l'accroche fonctionne et que les 5 sections différées peuvent être écrites avec plus de conviction.
 - **Notes :** les 5 sections restantes sont tracées dans `app/page.tsx` via un commentaire `TODO` listant l'ordre exact d'insertion. Chaque ajout futur sera un commit indépendant (`feat(frontend): <ComponentName>`), testable isolément, non-breaking vis-à-vis du Hero déployé.
+
+---
+
+## 2026-04-20 — Cible prioritaire phase 1-2 : DAOs généralistes (communautés, culture, grants, coopératives)
+
+- **Choix :** DAOIA cible prioritairement les DAOs généralistes pour ses phases 1 et 2. Par "DAOs généralistes", on entend les DAOs dont les propositions portent principalement sur des décisions narratives et humaines (allocations budgétaires, grants, partenariats, événements, identité communautaire), par opposition aux DAOs techniques dont les propositions portent sur des changements de paramètres smart contracts, upgrades de protocoles, ou configurations DeFi. Pas de sur-spécialisation sous-catégorielle à ce stade (pas de choix entre "DAOs culturelles", "DAOs de grants", "DAOs coopératives", etc.) — la spécialisation viendra après contact terrain avec les premiers utilisateurs.
+
+- **Alternatives considérées :**
+  - **Cibler en priorité les DAOs techniques (Aave, Optimism, Uniswap, ENS...)** — rejeté. Cycle de vente long (3-6 mois minimum pour intégrer un protocole), exigences techniques élevées pour Sage v0 (compréhension Solidity, MEV, risques d'exploit), concurrence indirecte des firms de délégation pro (Gauntlet, Chaos Labs, Llama, StableLab) déjà établies. En solo founder sans network préétabli dans l'écosystème DeFi technique, 12-18 mois avant première traction publique probable. Risque élevé de perte de motivation avant la première victoire.
+  - **Sur-spécialiser dès maintenant (ex: DAOs francophones, DAOs de grants uniquement)** — rejeté. Pas assez de signal terrain pour trancher entre sous-catégories. Sur-spécialiser tôt = s'enfermer dans un segment qui pourrait ne pas être le meilleur. La spécialisation viendra après les premiers contacts avec les early-testers.
+  - **Positionner DAOIA comme "DAO-agnostic" et servir tous types** — rejeté. Sans focus, le produit dilue son effort sur des utilisateurs aux besoins incompatibles (un community manager de FWB et un delegate Aave cherchent des choses radicalement différentes), et ne convainc ni l'un ni l'autre.
+
+- **Raison :** pour un solo founder sans network préétabli dans les protocoles DeFi techniques, le chemin le plus réaliste vers une traction réelle passe par les DAOs généralistes, pour 4 raisons :
+  1. **Accessibilité du terrain** : les DAOs communautaires sont ouverts par design — rejoindre leur Discord, proposer un test, itérer rapidement est possible sans introduction préalable.
+  2. **Simplicité technique de Sage v0** : résumer une proposition narrative en langage naturel est beaucoup moins exigeant que comprendre les implications d'un upgrade de smart contract. Sage v0 devient livrable en 3-4 mois plutôt qu'en 8-12 mois.
+  3. **Pain point participation validé publiquement** : la plupart des DAOs généralistes ont des taux de participation sous 15%, documentés et mesurables. L'impact d'un outil qui double la participation est direct et observable.
+  4. **Concurrence plus faible** : Snapshot/Tally traitent le vote (infrastructure), aucun outil sérieux ne traite la compréhension (surfacer les trade-offs, résumer les propositions, simuler l'impact). L'espace produit est ouvert.
+
+- **Notes :** les DAOs techniques ne sont pas abandonnés, ils deviennent une cible phase 3+ accessible via références accumulées sur le segment généraliste. Stratégie analogue à celle de Stripe (commence avec petits devs indépendants → arrive chez Amazon), Notion (freelancers → Microsoft), ou Linear (startups early-stage → Spotify/Vercel) : partir là où la traction est accessible, puis monter en gamme avec les preuves. Métrique implicite : dans 12 mois, avoir au moins 2-3 DAOs généralistes utilisant DAOIA en production sera considéré comme une validation suffisante pour commencer à approcher des protocoles techniques avec des références concrètes.

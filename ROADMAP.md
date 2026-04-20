@@ -55,6 +55,8 @@
 
 **Objectif :** MVP fonctionnel sur Base Sepolia qui démontre le flow Sarah (découvrir, lire un résumé Sage, voter).
 
+**Cible produit (confirmée) :** DAOs généralistes — communautés, culture, grants, coopératives. Sage v0 est tuné pour les propositions narratives (allocations budgétaires, partenariats, événements), pas pour les configurations smart contracts ou les upgrades de protocoles. Les early-testeurs seront recrutés depuis ce segment en priorité. Voir `DECISIONS.md` entrée `2026-04-20 — Cible prioritaire phase 1-2 : DAOs généralistes`.
+
 - [ ] **Smart contracts v0 sur Base Sepolia :**
   - Token `$GOVAI` ERC-20Votes (OpenZeppelin v5).
   - Governor + Timelock (templates OZ).

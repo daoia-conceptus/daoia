@@ -35,6 +35,16 @@
 
 ---
 
+## Cible produit (phase 1-2)
+
+**Cible prioritaire phase 1-2 :** DAOs généralistes — communautés, culture, grants, coopératives. Propositions narratives et humaines (allocations budgétaires, grants, partenariats, événements) plutôt que configurations smart contracts ou upgrades de protocoles. Pas de sur-spécialisation sous-catégorielle à ce stade — la spécialisation viendra après contact terrain avec les premiers utilisateurs.
+
+**Cible différée phase 3+ :** DAOs techniques (protocoles DeFi, infrastructure) via références accumulées sur le segment généraliste. Stratégie analogue Stripe / Notion / Linear : partir là où la traction est accessible, puis monter en gamme avec les preuves.
+
+**Raison résumée :** pour un solo founder sans network DeFi préétabli, le chemin le plus réaliste vers une traction réelle passe par les DAOs généralistes — accessibilité terrain, simplicité technique de Sage v0, pain point participation validé. Détail complet et alternatives rejetées : `DECISIONS.md` entrée `2026-04-20 — Cible prioritaire phase 1-2 : DAOs généralistes`.
+
+---
+
 ## Identité & comptes
 
 ### Canaux publics (réservés, 2026-04-19)
