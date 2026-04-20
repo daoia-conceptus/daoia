@@ -1,26 +1,201 @@
+/* =============================================================================
+ * DAOIA — design tokens & base styles
+ * =============================================================================
+ *
+ * This file is the single source of truth for the visual system of the landing.
+ * Everything component-level should reference these tokens, never a raw hex.
+ *
+ * ─── Architecture (two layers) ───────────────────────────────────────────────
+ *
+ *   Layer 1: `:root` holds the *raw* color values (hex). These are meant to be
+ *   overridden per-theme in the future.
+ *
+ *   Layer 2: `@theme inline { ... }` maps semantic token names to Tailwind's
+ *   utility generator by referencing the Layer 1 vars via `var(--X)`. The
+ *   `inline` keyword preserves the CSS-variable indirection, so a theme switch
+ *   at runtime (v2) cascades through every `.bg-*`, `.text-*`, etc. utility
+ *   without rebuilding Tailwind.
+ *
+ *   Why the two layers? Because Tailwind generates one utility per `--color-*`
+ *   declared in `@theme`. Putting raw hex directly in `@theme` would inline the
+ *   value at build time and break theme-switching via CSS variable override.
+ *   The raw-values-in-`:root` + `@theme inline` pattern is the canonical way
+ *   to keep both: Tailwind-native utilities AND runtime-overridable theming.
+ *
+ * ─── Adding a light mode later (v2) ──────────────────────────────────────────
+ *
+ *   Add a second selector that overrides the raw values in Layer 1. Example:
+ *
+ *     :root[data-theme="light"] {
+ *       --bg-canvas: #FAFAF9;
+ *       --bg-surface: #F4F4F5;
+ *       --fg-primary: #18181B;
+ *       --fg-muted:   #52525B;
+ *       --fg-subtle:  #71717A;
+ *       --hairline:   #E4E4E7;
+ *       --accent:     #18181B;
+ *       --signal:     #92400E;
+ *       --signal-soft:#B45309;
+ *     }
+ *
+ *   Then swap the `data-theme` attribute on `<html>` (or drive it from
+ *   `prefers-color-scheme`). No change needed to @theme or to any component.
+ *
+ * ─── Tokens vs inline arbitrary values ───────────────────────────────────────
+ *
+ *   Colors: always via tokens (they'll change between themes).
+ *   Font sizes: inline via Tailwind arbitrary values in components, e.g.
+ *     `className="text-[40px] md:text-[64px]"`. The wireframe specifies
+ *     exact sizes; no clamp, no custom utility wrapper.
+ *   Line-heights / letter-spacings: declared in @theme below as semantic
+ *     utilities (`leading-heading`, `leading-body`, `tracking-display`)
+ *     because they never change across themes.
+ *
+ * ─── Reduced motion ──────────────────────────────────────────────────────────
+ *
+ *   Two mechanisms, both live in this project:
+ *
+ *   1. Global kill-switch: the `@media (prefers-reduced-motion: reduce)` rule
+ *      at the bottom of this file neutralizes every transition and animation
+ *      duration. This is a safety net — any animated component is respectful
+ *      by default, even without explicit opt-in.
+ *
+ *   2. Tailwind built-in variants: `motion-safe:` and `motion-reduce:` are
+ *      available on every utility. Use `motion-safe:animate-fade-in` to gate
+ *      an animation on the user's motion preference. Use `motion-reduce:…`
+ *      to apply a fallback specifically when motion is reduced.
+ *
+ *   Prefer variants in components (explicit) over relying on the kill-switch.
+ *
+ * =============================================================================
+ */
+
 @import "tailwindcss";
 
+/* -----------------------------------------------------------------------------
+ * Layer 1 — raw color values (dark palette, v1)
+ *
+ * Reference: docs/landing_wireframe_v1.md §5 — "Stack visuelle minimale".
+ * Ten semantic slots + one hairline border, all near-monochrome with a single
+ * amber accent used with parcimony.
+ * -------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds (near-black warm, monochromatic steps) */
+  --bg-canvas:     #0A0A0B; /* Global canvas — main page + section backgrounds */
+  --bg-surface:    #121214; /* Elevated surface — cards, CTA blocks, modals */
+  --bg-surface-hi: #1A1A1D; /* High surface — card hover, elevated accent zones */
+
+  /* Foregrounds (warm near-white down to subtle gray) */
+  --fg-primary: #F5F5F4;    /* Body text, titles, primary foreground */
+  --fg-muted:   #A1A1AA;    /* Subheads, captions, timestamps */
+  --fg-subtle:  #71717A;    /* Disclaimers, footer metadata, low-emphasis text */
+
+  /* Borders (a single hairline; named so the Tailwind class reads clean) */
+  --hairline: #27272A;      /* Section separators, card outlines, input borders */
+
+  /* Accent (primary call-to-action surface — white pill on dark canvas) */
+  --accent: #F5F5F4;        /* Same hue as --fg-primary by design (inverse button) */
+
+  /* Signal (muted amber — anti-crypto-blue; used parcimoniously) */
+  --signal:      #B45309;   /* Link hover, focus ring, testnet badge, state dots */
+  --signal-soft: #92400E;   /* Signal-tinted surfaces — badges, subtle panels */
 }
 
+/* -----------------------------------------------------------------------------
+ * Layer 2 — Tailwind utility generation via @theme inline
+ *
+ * Each `--color-X` below becomes `.bg-X`, `.text-X`, `.border-X`, `.ring-X`,
+ * `.fill-X`, `.stroke-X`, etc. The `inline` keyword makes the utilities use
+ * `var(--X)` at runtime, so Layer 1 overrides (future light mode) propagate.
+ *
+ * Class naming rationale (see also DECISIONS.md):
+ *   - `bg-*` slots keep the wireframe name verbatim (bg-canvas, bg-surface).
+ *   - `fg-*` slots are prefixed so `text-fg-primary` reads unambiguously.
+ *   - `border-subtle` was renamed to `border-hairline` — "hairline" is a
+ *     precise design-system term (Apple HIG, IBM Carbon) for a thin 1px line,
+ *     and it sidesteps the awkward `.border-border-subtle` Tailwind generates.
+ * -------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Color slots → Tailwind color utilities */
+  --color-canvas:      var(--bg-canvas);
+  --color-surface:     var(--bg-surface);
+  --color-surface-hi:  var(--bg-surface-hi);
+  --color-fg-primary:  var(--fg-primary);
+  --color-fg-muted:    var(--fg-muted);
+  --color-fg-subtle:   var(--fg-subtle);
+  --color-hairline:    var(--hairline);
+  --color-accent:      var(--accent);
+  --color-signal:      var(--signal);
+  --color-signal-soft: var(--signal-soft);
+
+  /* Font families → font-sans, font-mono utilities.
+   * Overrides Tailwind defaults with the Geist variables set on <html> by
+   * `geist/font/sans` and `geist/font/mono` (see app/layout.tsx).           */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Line-heights — semantic, usage-driven names.
+   * Values are constants across themes, so they live directly in @theme
+   * (no need for the two-layer pattern).                                    */
+  --leading-heading: 1.2;   /* All <h1>–<h6>. Tighter than Tailwind's 1.25.  */
+  --leading-body:    1.6;   /* Body copy, prose paragraphs.                   */
+
+  /* Letter-spacing — "display" tier for large H1/Hero type.
+   * Named `tracking-display` to avoid colliding with Tailwind's built-in
+   * `tracking-tight` which is -0.025em.                                     */
+  --tracking-display: -0.02em;
+
+  /* Container widths — generates max-w-prose (and others if added later).   */
+  --container-prose: 720px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* -----------------------------------------------------------------------------
+ * Base element styles
+ *
+ * We style the <body> directly here (rather than relying solely on classes)
+ * so that any content rendered before React hydration, or any context that
+ * bypasses Tailwind utilities, still inherits the dark canvas.
+ * -------------------------------------------------------------------------- */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-canvas);
+  color: var(--fg-primary);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--leading-heading);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Mono-family elements default to Geist Mono (for hashes, addresses, code).
+ * Apply `font-mono` utility in components when you need mono for stats or
+ * tabular figures that are not inside <code>/<pre>.                         */
+code, kbd, pre, samp {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular,
+    Menlo, Monaco, Consolas, monospace;
+}
+
+/* -----------------------------------------------------------------------------
+ * Reduced-motion safety net
+ *
+ * Global override for users who opted into reduced motion in their OS. This
+ * catches any third-party CSS that ignores `motion-reduce:` Tailwind variants,
+ * and provides a baseline in case a developer forgets to gate an animation.
+ *
+ * Components SHOULD still use the Tailwind `motion-safe:` / `motion-reduce:`
+ * variants explicitly — they're more expressive and allow bespoke fallbacks.
+ * This rule is the backstop, not the primary mechanism.
+ * -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
