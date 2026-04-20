@@ -16,6 +16,11 @@ const SITE_NAME = "DAOIA";
 const OG_TITLE = "DAOIA — Governance where AI helps, never votes for you";
 const OG_DESCRIPTION =
   "An AI-augmented DAO where agents help humans read, simulate, and act on proposals — under a strict on-chain policy. The decision stays yours.";
+// Alt mirrors the Hero headline exactly (with the "and" the headline uses),
+// so screen readers get the same sentence whether they land on the page
+// itself or on a share-card preview.
+const OG_IMAGE_ALT =
+  "DAOIA — Governance where AI helps, and never votes for you.";
 
 // -----------------------------------------------------------------------------
 // Metadata — Next.js App Router Metadata API.
@@ -24,8 +29,12 @@ const OG_DESCRIPTION =
 //     uses `title.default` alone.
 //   - `robots: { index: false, follow: false, nocache: true }` keeps the site
 //     out of search engines until we flip it explicitly at launch.
-//   - `openGraph.images` and `twitter.images` are intentionally unset — the
-//     custom OG image is generated in étape 6 via @vercel/og.
+//   - `openGraph.images` and `twitter.images` reference `/og-image.jpg`, a
+//     static 1200×630 JPEG committed under `public/`. `metadataBase` is set
+//     to SITE_URL so the relative path resolves to an absolute URL in the
+//     rendered meta tags (`https://daoia.io/og-image.jpg`). No runtime OG
+//     generation — @vercel/og stays an option if we need per-route images
+//     later.
 //   - `keywords` is intentionally omitted: Google dropped it as a signal in
 //     2009; keeping it clutters the <head> and provides no SEO benefit.
 //   - `icons` is NOT declared here: Next.js auto-detects `app/favicon.ico`.
@@ -54,6 +63,15 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESCRIPTION,
     locale: "en_US",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: OG_IMAGE_ALT,
+        type: "image/jpeg",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -61,6 +79,12 @@ export const metadata: Metadata = {
     creator: "@daoiaprotocol",
     title: OG_TITLE,
     description: OG_DESCRIPTION,
+    images: [
+      {
+        url: "/og-image.jpg",
+        alt: OG_IMAGE_ALT,
+      },
+    ],
   },
 };
 
