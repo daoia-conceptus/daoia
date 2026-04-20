@@ -3,22 +3,37 @@ import { ProblemStatement } from "@/components/sections/ProblemStatement";
 import { AgentFamilies } from "@/components/sections/AgentFamilies";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { GuardrailsShort } from "@/components/sections/GuardrailsShort";
+import { CallToAction } from "@/components/sections/CallToAction";
 
 const DISCORD_URL = "https://discord.gg/KmEs2QVk";
 const GITHUB_URL = "https://github.com/daoia-conceptus/daoia";
 
 /**
- * Landing homepage — Phase 1 v1.
+ * Landing homepage — Phase 1 v1 (complete).
  *
- * v1 scope: Hero-only, intentionally. See DECISIONS.md entry
- * "2026-04-20 — Landing v1 : Hero-only" for the rationale. The five
- * additional sections listed in the TODO below will be added in
- * later sessions, each as an independent commit so they can ship
- * opportunistically without blocking Phase 2.
+ * Six content sections, each a standalone Server Component under
+ * components/sections/, composed in narrative order:
  *
- * Chrome (SiteHeader, SiteFooter, skip-to-content link, #main-content
- * wrapper, Vercel Analytics) lives in app/layout.tsx — this file only
- * owns the route-specific content.
+ *   1. Hero              — Hook / pitch / primary CTAs
+ *   2. ProblemStatement  — Why participation is broken today
+ *   3. AgentFamilies     — The two families of agents, ten in total
+ *   4. HowItWorks        — Five-step proposal lifecycle, with example
+ *   5. GuardrailsShort   — The four non-negotiable safety rails
+ *   6. CallToAction      — Closing conversion (Discord, GitHub, X)
+ *
+ * Narrative arc: Hook → Problem → Solution → Proof → Principles →
+ * Conversion. Wireframe spec: docs/landing_wireframe_v1.md §2.
+ *
+ * The first iteration shipped with Hero only — see the DECISIONS.md
+ * entry "2026-04-20 — Landing v1 : Hero-only" for the reasoning.
+ * Each subsequent section was added as an independent commit
+ * (ProblemStatement, AgentFamilies, HowItWorks, GuardrailsShort,
+ * CallToAction) so they could land opportunistically without
+ * blocking Phase 2.
+ *
+ * Chrome (SiteHeader, SiteFooter, skip-to-content link,
+ * #main-content wrapper, Vercel Analytics) lives in app/layout.tsx
+ * — this file only owns the route-specific content.
  */
 export default function Home() {
   return (
@@ -47,9 +62,13 @@ export default function Home() {
 
       <GuardrailsShort />
 
-      {/* TODO: last section to build (cf. docs/landing_wireframe_v1.md §2):
-           1. <CallToAction />
-      */}
+      <CallToAction />
+
+      {/* Landing v1 complete — 6 sections: Hero → ProblemStatement →
+          AgentFamilies → HowItWorks → GuardrailsShort → CallToAction.
+          Narrative arc: Hook → Problem → Solution → Proof → Principles
+          → Conversion. See docs/landing_wireframe_v1.md §2 for the spec
+          each section was built against. */}
     </main>
   );
 }
