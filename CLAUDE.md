@@ -8,27 +8,28 @@
 
 ## État courant du projet
 
-- **Dernière mise à jour :** 2026-04-19 22:02 CEST — pause en fin de session après étape 2.
-- **Phase en cours :** Phase 1 — Vitrine publique (landing v1 en cours de construction).
-- **Commit courant (HEAD local) :** `9819053` — `feat(frontend): self-host Geist Sans and Geist Mono via geist package`.
-- **Commits locaux non pushés :** 3 — `b61ee9e` (hook husky), `8b159a1` (scaffold Next.js 16), `9819053` (Geist). À pousser en début de prochaine session.
+- **Dernière mise à jour :** 2026-04-20 08:15 CEST — landing v1 complétée, prête à être poussée.
+- **Phase en cours :** Phase 1 — **Vitrine publique : COMPLÉTÉE** (sur le sous-livrable "landing page"). Phase 2 — prototype on-chain — prochaine à ouvrir.
+- **Commit courant (HEAD local) :** commit B de l'étape 6 (docs finalize) — hash à retrouver via `git log`.
+- **Commits locaux non pushés :** 10 commits d'avance sur `origin/main` — la poussée finale est à la main de l'utilisateur.
 - **Repo public :** https://github.com/daoia-conceptus/daoia
-- **Prochaine étape prévue :** **Landing — étape 3 : tokens de design** (`globals.css` avec bloc `@theme` Tailwind v4 couvrant les 10 couleurs sémantiques, l'échelle typo, et la règle `@media (prefers-reduced-motion: reduce)`). Reprise du plan 6 étapes inchangé.
-- **Progression de la landing v1 (6 étapes) :**
+- **Prochaine étape prévue :** **Phase 2 — prototype on-chain** (Safe multisig Base Sepolia, smart contracts v0 = ERC-20Votes + Governor + Timelock + AgentRegistry simple, dApp connect/propose/vote, agent Sage v0). Voir `ROADMAP.md` et `docs/roadmap_solo_claude_code.md` pour le détail.
+- **Progression de la landing v1 (6 étapes) — toutes terminées :**
   - ✅ Étape 1 — scaffold Next.js 16 + TS + Tailwind v4 + App Router (`8b159a1`)
   - ✅ Étape 2 — self-host Geist Sans + Mono via package `geist` (`9819053`)
-  - ⏳ Étape 3 — tokens de design
-  - ⏳ Étape 4 — root layout (metadata, noindex, Vercel Analytics)
-  - ⏳ Étape 5 — SiteHeader, SiteFooter, stub `/principles`
-  - ⏳ Étape 6 — Hero + homepage + mise à jour `CLAUDE.md` + `DECISIONS.md`
+  - ✅ Étape 3 — tokens de design (`d2419c4`)
+  - ✅ Étape 4 — root layout (metadata, noindex, Vercel Analytics) (`e8d7df4`)
+  - ✅ Étape 5a — site chrome (header, footer, brand components) (`0a0d38f`)
+  - ✅ Étape 5b — stub `/principles` route (`465f49b`)
+  - ✅ Étape 6 — Hero + homepage + docs update (`d18cf56` + commit B du jour)
 - **Nom provisoire du projet :** DAOIA
 - **Ticker token (placeholder) :** `$GOVAI` — à reconfirmer avant TGE après legal opinion.
-- **Items Phase 0 encore à faire (en parallèle Phase 1, ne pas les oublier) :**
-  1. Créer un Safe multisig projet sur Base Sepolia (wallet dédié DAOIA).
-  2. Rédiger la page "principes constitutionnels non négociables" (version courte publiable, basée sur la section "Principes non négociables" de ce document).
+- **Items Phase 0 encore à faire (non bloquants pour Phase 2 démarrage) :**
+  1. Créer un Safe multisig projet sur Base Sepolia (wallet dédié DAOIA) — devient une dépendance de Phase 2.
+  2. Rédiger la page `/principles` **réelle** (version publique, non-négociables en anglais). Stub shipped à l'étape 5b, contenu à écrire.
   - *Handles publics **tous réservés ✅** : GitHub `daoia-conceptus`, domaine `daoia.io`, Discord `discord.gg/KmEs2QVk`, X `@daoiaprotocol`. Voir section "Identité & comptes".*
   - *Toolchain locale **installée ✅** : Node 24.14.1, pnpm 9.15.0, Foundry `forge 1.5.1-stable`, gitleaks 8.30.1.*
-- **Dette de traçabilité à liquider en étape 6 (DECISIONS.md) :** révision Next.js 15 → 16, choix SVG brand inlinés en composants React, hook pre-commit PATH-augmenté pour shells non-login.
+- **Landing — sections différées (non bloquantes) :** les 5 sections additionnelles du wireframe (`ProblemStatement`, `AgentFamilies`, `HowItWorks`, `GuardrailsShort`, `CallToAction`) peuvent être ajoutées opportunistement plus tard. Chaque ajout = 1 commit indépendant. Ordre et emplacement fixés par le `TODO` dans `frontend/app/page.tsx`. Décision détaillée dans `DECISIONS.md` entrée `2026-04-20 — Landing v1 : Hero-only`.
 
 > **Règle :** cette section est mise à jour à chaque fin de session importante. Si tu reviens sur ce projet et que la date est vieille de plus de 7 jours, re-demande à l'utilisateur où on en est avant de supposer.
 

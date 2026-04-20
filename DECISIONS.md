@@ -226,3 +226,96 @@
   - Transfert potentiel **Hostinger → Cloudflare** pour la gestion DNS (meilleure API, meilleurs records CDN, intégration Vercel plus fluide) **reporté** — non bloquant tant que la landing n'est pas live ; à re-évaluer au moment du déploiement réel sur `daoia.io`.
   - La décision antérieure "Landing v1 : `noindex` tant que les handles Discord/X ne sont pas réservés" (même date) voit sa condition technique levée ; le `noindex` reste toutefois maintenu jusqu'au lancement public explicite puisque la landing n'est pas encore déployée.
   - Tous ces liens sont également consignés dans `CLAUDE.md` (section "Identité & comptes") et exposés dans `README.md` (section "Community").
+
+---
+
+## 2026-04-19 — Scaffold landing v1 : Next.js 16.2.4 au lieu de Next.js 15 (révision)
+
+- **Choix :** le scaffold de `frontend/` a été réalisé avec `pnpm create next-app@latest` en avril 2026, ce qui a installé **Next.js 16.2.4** (+ React 19.2.4, Tailwind v4, TypeScript 5) au lieu de la version 15 initialement notée dans l'entrée stack antérieure. La décision Next 15 est explicitement révisée vers Next 16 pour ce projet.
+- **Alternatives considérées :**
+  - **Downgrade manuel vers Next 15** via `pnpm create next-app@15` — rejeté. Aurait pin volontairement une version en fin de cycle sur un projet qui ouvre juste ; signal étrange pour les futurs contributeurs tech et pour les investisseurs qui ouvriront le repo.
+  - **Ignorer la divergence vs l'entrée stack initiale** — rejeté. La traçabilité demande une entrée révisée explicite pour que l'écart soit assumé et daté, pas silencieusement absorbé.
+- **Raison :** Next 16 est une release stable en avril 2026, et pour une landing statique (Hero + SiteHeader + SiteFooter + stub `/principles`) la surface d'API utilisée est minimale ; les breaking changes (params en Promise dans les image-generating functions, `themeColor` via `viewport` export) n'impactent pas le code écrit. Les `frontend/AGENTS.md` + `frontend/CLAUDE.md` shippés par create-next-app imposent la contrainte "lire `node_modules/next/dist/docs/` avant d'écrire du code Next-spécifique" — contrainte acceptée et appliquée (voir entrées viewport.themeColor et metadata API).
+- **Révision :** supersède la ligne "Next.js 15.x (App Router)" dans l'entrée stack antérieure `2026-04-19 — Frontend : Next.js 15 App Router + Tailwind v4 + RainbowKit`. Les autres choix de cette entrée (App Router, Tailwind v4, RainbowKit) restent valides.
+
+---
+
+## 2026-04-20 — Brand SVG : composants React inlinés (Wordmark, Logomark)
+
+- **Choix :** les deux SVG de marque existent **à deux endroits** : sous `frontend/public/brand/*.svg` pour usage externe (fallback, bots Discord, partage) et comme **composants React** `frontend/components/brand/{Wordmark,Logomark}.tsx` qui inlinent les paths directement dans le JSX. Toute utilisation interne passe par le composant, jamais par `<img src="/brand/...">`.
+- **Alternatives considérées :**
+  - **`next/image` avec `unoptimized`** — rejeté. Perd le tintage `currentColor` (l'image est rasterisée/wrappée, les paths ne sont plus stylisables par `color` CSS), ajoute un HTTP request par render.
+  - **`<img src="/brand/...">` simple** — rejeté. Même problème de tintage, un HTTP request, et pas d'intégration avec les `role`/`aria-label` du SVG source.
+  - **`@svgr/webpack` loader** pour importer directement depuis `.svg` — rejeté à ce stade. Ajoute de la config bundler, marginal pour deux SVG.
+- **Raison :** les SVG sont petits (~500 B + 1.5 KB), `fill="currentColor"` permet de les recolorer par `className="text-fg-primary"` ou `text-signal`, et les attributs `role="img"` + `aria-label="DAOIA"` sont préservés dans le composant. Un import TypeScript comme `import { Wordmark } from "@/components/brand/Wordmark"` est type-safe et tree-shakable. Les SVG sous `public/` restent disponibles pour les usages hors-React (bot Discord, partages Twitter, fallbacks).
+- **Notes :** si un composant doit utiliser une taille spécifique, passer `className="h-5 w-auto text-fg-primary"` ou équivalent — le SVG forwarde toutes les props via `{...props}`.
+
+---
+
+## 2026-04-19 — Husky pre-commit : PATH augmenté en tête du hook
+
+- **Choix :** le hook `.husky/pre-commit` exporte `PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"` en première instruction exécutable, avant toute recherche via `command -v`. Couvre les deux préfixes brew classiques (Apple Silicon et Intel).
+- **Alternatives considérées :**
+  - **Export inline dans chaque `git commit`** (ex: `PATH=... git commit ...`) — rejeté. Fragile, oubli facile, ne bénéficie ni aux développeurs futurs ni au CI.
+  - **Config shell `.zshrc` / `.bashrc` utilisateur** — rejeté. Ne marche pas pour tous les contextes (Claude Code subshells, cron, workers CI ignorent `.zshrc`), et c'est du per-user/per-machine, donc non partagé via le repo.
+- **Raison :** certains contextes d'exécution shell (notamment les subshells déclenchés par Claude Code, par `cron`, ou par un futur worker CI) n'héritent pas du PATH étendu par `.zshrc`. Sur Apple Silicon, `brew install gitleaks` installe dans `/opt/homebrew/bin` qui est absent du PATH par défaut dans ces contextes → `command -v gitleaks` échoue → hook exit 1 → commit refusé sur un outil pourtant correctement installé. Corriger au niveau du hook rend le check **portable et one-and-done**, transparent pour les contributeurs futurs.
+- **Notes :** ce pattern s'applique aussi aux autres outils brew que le hook pourrait invoquer plus tard (trivy, detect-secrets, semgrep, etc.). En cas de workflow CI en 2026+, pré-ajouter explicitement `/opt/homebrew/bin` restera inoffensif sur Linux (dossier simplement absent, `$PATH` tombe sur `/usr/local/bin` puis le reste).
+
+---
+
+## 2026-04-19 — Nommage token : rename `border-subtle` → `border-hairline`
+
+- **Choix :** le token CSS et la classe Tailwind de la bordure discrète du design system s'appellent `hairline`. Variables : `--hairline: #27272A;` dans Layer 1, `--color-hairline: var(--hairline);` dans `@theme inline`. Classe Tailwind : `border-hairline`.
+- **Alternatives considérées :**
+  - **Garder `border-subtle` tel quel dans le wireframe** — rejeté. Avec la convention Tailwind v4 (`--color-X` → `border-X`), la classe générée serait `border-border-subtle` (double "border"), ce qui est laid et répétitif à chaque utilisation dans un composant.
+  - **Aliaser sur le `--color-border` par défaut de Tailwind** pour écrire juste `border` — rejeté. Perdre la lisibilité sémantique au profit d'une convention implicite est un mauvais trade quand on bâtit un design system from scratch.
+- **Raison :** "hairline" est un terme précis emprunté aux design systems matures (Apple Human Interface Guidelines, IBM Carbon, Atlassian) qui désigne explicitement un trait fin destiné à séparer sans créer de poids visuel. Auto-documenté pour un contributeur qui lit `border-hairline` la première fois. `docs/landing_wireframe_v1.md` section 5 a été mis à jour en conséquence au commit `d2419c4`.
+- **Notes :** si le projet acquiert d'autres variantes de bordure (ex: `--border-emphasis` pour les focus states), rester sur le pattern sémantique — un mot qui décrit la fonction, pas l'apparence.
+
+---
+
+## 2026-04-19 — `themeColor` : export `viewport` séparé (dépréciation Next 14+)
+
+- **Choix :** `themeColor` (valeur `#0A0A0B`, alignée sur `--bg-canvas`) et `colorScheme: "dark"` sont déclarés dans un **export `viewport`** dédié de `frontend/app/layout.tsx`, typé avec `Viewport` de `next` :
+
+  ```ts
+  export const viewport: Viewport = {
+    themeColor: "#0A0A0B",
+    colorScheme: "dark",
+  };
+  ```
+
+  Ils ne sont **pas** placés dans l'objet `metadata`.
+- **Alternatives considérées :**
+  - **Placer `themeColor` dans l'objet `metadata`** (convention pré-Next-14, encore largement vue dans les tutos) — rejeté. Next.js émet un warning en dev et la dépréciation peut devenir un hard error dans une release future.
+- **Raison :** Next.js a déprécié `metadata.themeColor` depuis Next 14 au profit de l'export `viewport` séparé. Cette séparation reflète la nature distincte de la metadata (statique au moment du build) et du viewport (potentiellement dynamique via `generateViewport`, dépendant de l'appareil). Respecter la séparation dès Next 16 évite le warning en console, aligne avec le codemod officiel `metadata-to-viewport-export`, et prépare le terrain pour un `generateViewport` dynamique si on en a besoin plus tard (ex: themeColor différent par route).
+- **Notes :** un contributeur qui copy-paste un tuto pre-Next-14 et place `themeColor` dans `metadata` verra son setup silencieusement dégradé ; la présence explicite de l'export `viewport` dans `layout.tsx` sert de signal à suivre le pattern.
+
+---
+
+## 2026-04-20 — Pattern `id="main-content"` : sur le layout wrapper uniquement
+
+- **Choix :** l'attribut `id="main-content"` qui sert de cible au skip-to-content link vit **exclusivement sur le `<div>` wrapper** de `frontend/app/layout.tsx`, jamais sur les balises `<main>` des pages. Les pages individuelles utilisent `<main>` pour la sémantique landmark, mais **sans id**.
+- **Alternatives considérées :**
+  - **`id="main-content"` sur chaque `<main>` page** (un id par route) — rejeté. Si une page oublie le id, la skip-link se casse silencieusement.
+  - **`id` sur layout ET sur page `<main>`** — rejeté. Produit deux éléments avec le même id dans le DOM rendu, ce qui est invalide HTML (contrainte spec : ids uniques par document).
+- **Raison :** l'approche "id sur le wrapper layout" centralise la responsabilité : la skip-link fonctionne par défaut sur **toute** route, y compris si une nouvelle page oublie de marquer son landmark. Comme Next.js compose `children` dans le layout, un seul id au niveau du wrapper couvre statiquement toutes les routes présentes et futures.
+- **Notes :** incident détecté pendant le smoke test de `/principles` à l'étape 5 — le stub avait initialement `<main id="main-content">` alors que le layout portait déjà l'id sur son `<div>` wrapper, produisant un duplicate. Le fix a retiré l'id de la page ; convention pérennisée ici pour qu'aucune future page ne reproduise l'erreur.
+
+---
+
+## 2026-04-20 — Landing v1 : Hero-only (5 sections additionnelles différées)
+
+- **Choix :** la landing v1 publique livre **uniquement le composant `Hero`** comme section de contenu, plus le chrome (SiteHeader + SiteFooter + Wordmark) et le stub `/principles`. Les 5 sections additionnelles prévues au wireframe (`ProblemStatement`, `AgentFamilies`, `HowItWorks`, `GuardrailsShort`, `CallToAction`) sont **différées** à une session ultérieure, sans date figée.
+- **Alternatives considérées :**
+  - **Livrer les 6 sections du wireframe en une seule itération** — rejeté. Ajouterait 3-5 jours de rédaction + composants, alors que le positionnement public minimum (pitch en 10s + CTA Discord + signal de sérieux) tient avec le seul Hero. Le coût d'opportunité est Phase 2 retardée d'autant.
+  - **Pas de réécriture de `page.tsx`, garder le template create-next-app jusqu'à la session Hero + 5 sections** — rejeté. La landing serait publiée avec le contenu "To get started, edit the page.tsx file" si jamais poussée en public. Signal désastreux, risque gratuit.
+- **Raison :** débloquer Phase 2 sans perdre le signal public de Phase 1. La landing "Hero-only" est suffisante pour :
+  - Partager une URL crédible (`daoia.io` pointé sur Vercel) aux premiers contacts (cofondateur potentiel, angels, early testeurs).
+  - Valider l'accroche Hero (`Governance where AI helps — and never votes for you.`) avant d'investir dans du copy complémentaire.
+  - Maintenir le `noindex` tant que l'expérience n'est pas complète — aucun coût SEO lié au retard des sections manquantes.
+
+  Les 5 sections additionnelles profiteront d'attendre le whitepaper v0.5 : `ProblemStatement` pourra citer des chiffres sourcés, `AgentFamilies` pourra renvoyer à des specs réelles, `HowItWorks` pourra pointer vers un prototype testnet fonctionnel au lieu d'un "scenario we're building for" hypothétique. Livrer trop tôt = livrer du draft.
+
+  **Métrique de succès :** la landing Hero-only est déployable en l'état — si elle génère des clics Discord ou GitHub (trackés via Vercel Analytics), c'est un signal que l'accroche fonctionne et que les 5 sections différées peuvent être écrites avec plus de conviction.
+- **Notes :** les 5 sections restantes sont tracées dans `app/page.tsx` via un commentaire `TODO` listant l'ordre exact d'insertion. Chaque ajout futur sera un commit indépendant (`feat(frontend): <ComponentName>`), testable isolément, non-breaking vis-à-vis du Hero déployé.
