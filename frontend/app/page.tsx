@@ -1,6 +1,7 @@
 import { Hero } from "@/components/sections/Hero";
 import { ProblemStatement } from "@/components/sections/ProblemStatement";
 import { AgentFamilies } from "@/components/sections/AgentFamilies";
+import { HowItWorks } from "@/components/sections/HowItWorks";
 
 const DISCORD_URL = "https://discord.gg/KmEs2QVk";
 const GITHUB_URL = "https://github.com/daoia-conceptus/daoia";
@@ -41,10 +42,11 @@ export default function Home() {
 
       <AgentFamilies />
 
+      <HowItWorks />
+
       {/* TODO: next sections to build in order (cf. docs/landing_wireframe_v1.md §2):
-           1. <HowItWorks />
-           2. <GuardrailsShort id="guardrails" />   ← /principles links back here via /#guardrails
-           3. <CallToAction />
+           1. <GuardrailsShort id="guardrails" />   ← /principles links back here via /#guardrails
+           2. <CallToAction />
       */}
     </main>
   );
